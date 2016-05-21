@@ -8,8 +8,7 @@
     "cheerio": "latest",
     "express": "latest",
     "firebase": "^2.4.2",
-    "request": "latest",
-    "firebase": "latest",
-    "nodemailer": "latest"
+    "nodemailer": "latest",
+    "request": "latest"
   }
 }
