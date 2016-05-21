@@ -1,0 +1,88 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Course Alert for UofR</title>
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+
+    <!--Firebase-->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+
+    <!-- Your application bootstrap  -->
+    <script type="text/javascript" src="app.js">    
+
+    </script>
+</head>
+<body ng-app="URCS" ng-cloak>
+  <!--
+    Your HTML content here
+  -->  
+    <div class="bgimage"></div>
+
+    <div class="mainbox" ng-controller="DemoCtrl as ctrl" layout="column" ng-cloak>
+        <md-toolbar class="demo-toolbar md-primary _md">
+        <div class="md-toolbar-tools">
+            <img class="logo" src="logo.png" height="80px">
+            <h4 class="ng-binding">University of Rochester - Course Alert</h4>
+        </div>
+      </md-toolbar>
+      <md-content class="md-padding autocompletedemoCustomTemplate">
+        <form ng-submit="submitForm()" name="searchForm">
+          <p>Enter your email, and your course CRN and you will be notified when the class opens up!</p>
+          <div layout-gt-sm="row">
+            <md-input-container flex>
+              <label>Email</label>
+              <input name="emailbox" type="email" ng-model="email" required/>
+            <div ng-messages="searchForm.emailbox.$error" ng-if="searchForm.emailbox.$touched">
+                  <div ng-message="required">You <b>must</b> enter an email.</div>
+                  <div ng-message="email">You <b>must</b> enter an email.</div>
+            </div>
+            </md-input-container>
+            <md-autocomplete flex required
+                md-input-name="autocompleteField"
+                md-input-minlength="2"
+                md-input-maxlength="7"
+                md-select-on-match = true
+                md-no-cache="ctrl.noCache"
+                md-selected-item="ctrl.selectedItem"
+                md-search-text="ctrl.searchText"
+                md-items="item in ctrl.querySearch(ctrl.searchText)"
+                md-item-text="item.display"
+                md-floating-label="Course Reference Number (CRN)"
+                md-selected-item-change="ctrl.updateAC()">
+              <md-item-template class="autocomplete-custom-template">
+                <span class="item-title">
+                    <span> {{item.display}} </span>
+                  </span>
+                  <span class="item-metadata">
+                    <span><b>{{item.name}}</b> {{item.title}}</span>
+                  </span>
+              </md-item-template>
+              <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched" multiple>
+                  <div ng-message="required">You <b>must</b> enter a CRN.</div>
+                <div ng-message="minlength">Your entry is not long enough.</div>
+                <div ng-message="maxlength">Your entry is too long.</div>
+                <div ng-if="!isNumber">Your entry is not a <b>CRN</b></div>
+                <div ng-if="ctrl.searchText.length < 5">Your entry is not long enough.</div>
+                <div ng-if="ctrl.searchText.length > 5">Your entry is too long.</div>
+              </div>
+            </md-autocomplete>
+          </div>
+        <md-button type="submit" class="md-raised md-primary">Submit</md-button>
+        </form>
+      </md-content>
+    </div>
+</body>
+</html>
